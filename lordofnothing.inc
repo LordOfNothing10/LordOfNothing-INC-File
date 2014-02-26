@@ -55,7 +55,7 @@ new TeamName[][] =
 
 stock give_user_bonus(index, skill_type, count)
 {
-	siwtch( skill_type )
+	switch( skill_type )
 	{
 	
 		case ITEM_HP:
@@ -87,20 +87,20 @@ stock give_nade(index, nade_type, count)
 	{
 		case FL:
 		{
-			give_item(id, "weapon_flashbang")
-			cs_set_user_bpammo(id, CSW_FLASHBANG, count)
+			give_item(index, "weapon_flashbang")
+			cs_set_user_bpammo(index, CSW_FLASHBANG, count)
 		}
 
 		case SG:
 		{
-			give_item(id, "weapon_smokegrenade")
-			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, count)			
+			give_item(index, "weapon_smokegrenade")
+			cs_set_user_bpammo(index, CSW_SMOKEGRENADE, count)			
 		}
 
 		case HE:
 		{
-			give_item(id, "weapon_hegrenade")
-			cs_set_user_bpammo(id, CSW_HEGRENADE, count)				
+			give_item(index, "weapon_hegrenade")
+			cs_set_user_bpammo(index, CSW_HEGRENADE, count)				
 		}
 	}
 }
@@ -116,25 +116,25 @@ stock give_weapons(index, weapon_type, count, count2)
 	{
 		case i_deagle:
 		{
-			new iwpn = give_item(id, "weapon_deagle")
+			new iwpn = give_item(index, "weapon_deagle")
 			cs_set_weapon_ammo(iwpn, count)
-			cs_set_user_bpammo(id, CSW_DEAGLE, count2)
+			cs_set_user_bpammo(index, CSW_DEAGLE, count2)
 			return 0
 		}
 
 		case i_awp:
 		{
-			new iwpn = give_item(id, "weapon_awp")
+			new iwpn = give_item(index, "weapon_awp")
 			cs_set_weapon_ammo(iwpn, count)
-			cs_set_user_bpammo(id, CSW_AWP, count2)
+			cs_set_user_bpammo(index, CSW_AWP, count2)
 			return 0
 		}
 
 		case i_usp:
 		{
-			new iwpn = give_item(id, "weapon_usp")
+			new iwpn = give_item(index, "weapon_usp")
 			cs_set_weapon_ammo(iwpn, count)
-			cs_set_user_bpammo(id, CSW_USP, count2)
+			cs_set_user_bpammo(index, CSW_USP, count2)
 			return 0
 		}
 	}	
@@ -145,7 +145,7 @@ stock player_name(index)
 {
 	new szName[33]
 	
-	get_user_name(id, szName, charsmax(szName) - 1)
+	get_user_name(index, szName, charsmax(szName) - 1)
 
 	return szName;
 	
