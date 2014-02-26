@@ -107,38 +107,34 @@ stock give_nade(index, nade_type, count)
 
 stock give_weapons(index, weapon_type, count, count2)
 {
-	if(!is_user_alive( index ))
-	{
-		return 1
-	}
-
-	switch( weapon_type )
-	{
-		case i_deagle:
+	if(is_user_alive( index ))
+	{	
+		switch( weapon_type )
 		{
-			new iwpn = give_item(index, "weapon_deagle")
-			cs_set_weapon_ammo(iwpn, count)
-			cs_set_user_bpammo(index, CSW_DEAGLE, count2)
-			return 0
-		}
-
-		case i_awp:
-		{
-			new iwpn = give_item(index, "weapon_awp")
-			cs_set_weapon_ammo(iwpn, count)
-			cs_set_user_bpammo(index, CSW_AWP, count2)
-			return 0
-		}
-
-		case i_usp:
-		{
-			new iwpn = give_item(index, "weapon_usp")
-			cs_set_weapon_ammo(iwpn, count)
-			cs_set_user_bpammo(index, CSW_USP, count2)
-			return 0
+			case i_deagle:
+			{
+				new iwpn = give_item(index, "weapon_deagle")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_DEAGLE, count2)
+	
+			}
+	
+			case i_awp:
+			{
+				new iwpn = give_item(index, "weapon_awp")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_AWP, count2)
+			}
+	
+			case i_usp:
+			{
+				new iwpn = give_item(index, "weapon_usp")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_USP, count2)
+			}
 		}
 	}	
-	return 0
+
 }
 
 stock player_name(index)
