@@ -1,0 +1,481 @@
+/*
+	Lord @ 2014
+
+	Update`s :
+
+		0.1
+			first launch
+		0.2
+			added ITEM_MONEY, added vips natives, added more weapons support
+*/
+#if defined _ln_included
+	#endinput
+#endif
+#define _ln_included
+
+
+#include <amxmodx>
+#include <fun>
+#include <cstrike>
+
+#define cm(%1)	( charsmax(%1) - 1 )
+
+new xvip[33]
+
+enum 
+{
+	NO_VIP,
+	VIP_BRONZE,
+	VIP_SILVER,
+	VIP_GOLD
+}
+
+enum 
+{
+	ITEM_HP,
+	ITEM_ARMOR,
+	ITEM_SPEED,
+	ITEM_MONEY,
+	ITEM_GRAVITY
+}
+
+enum
+{
+	FL,
+	HE,
+	SG
+}
+
+enum
+{
+	i_deagle,
+	i_usp,
+	i_p228,
+	i_scout,
+	i_xm1014,
+	i_mac10,
+	i_aug,
+	i_elite,
+	i_fiveseven,
+	i_ump45,
+	i_sg550,
+	i_galil,
+	i_famas,
+	i_glock18,
+	i_awp,
+	i_mp5navy,
+	i_m249,
+	i_m3,
+	i_m4a1,
+	i_tmp,
+	i_g3sg1,
+	i_sg552,
+	i_ak47,
+	i_p90
+}
+
+
+enum Color
+{
+	NORMAL = 1, 
+	YELLOW = 1, 
+	GREEN, 
+	TEAM_COLOR, 
+	GREY, 
+	RED, 
+	BLUE, 
+}
+ 
+new TeamName[][] =
+{
+	"",
+	"TERRORIST",
+	"CT",	
+	"SPECTATOR"
+}
+
+stock set_user_vip(index, vip_type)
+{
+	switch( vip_type )
+	{
+		case NO_VIP: xvip[id] = 0
+		case VIP_BRONZE: xvip[id] = 1
+		case VIP_SILVER: xvip[id] = 2
+		case VIP_GOLD: xvip[id] = 3
+	}
+}
+
+stock get_user_vip(index)
+{
+	return xvip[id]
+}
+
+stock give_user_bonus(index, skill_type, count)
+{
+	switch( skill_type )
+	{
+	
+		case ITEM_HP:
+		{
+			set_user_health( index, get_user_health( index ) + count )
+		}
+
+		case ITEM_ARMOR:
+		{
+			set_user_armor( index, get_user_armor( index ) + count )
+		}		
+
+		case ITEM_GRAVITY:
+		{
+			set_user_gravity( index, float(count) / 800.0 )
+		}
+
+		case ITEM_SPEED:
+		{
+			set_user_maxspeed( index, get_user_maxspeed( index ) + float(count) )
+		}
+		case ITEM_MONEY:
+		{
+			cs_set_uesr_money( index, cs_get_user_money( index ) + count)
+		}
+	}
+
+}
+
+stock give_nade(index, nade_type, count)
+{
+	switch( nade_type )
+	{
+		case FL:
+		{
+			give_item(index, "weapon_flashbang")
+			cs_set_user_bpammo(index, CSW_FLASHBANG, count)
+		}
+
+		case SG:
+		{
+			give_item(index, "weapon_smokegrenade")
+			cs_set_user_bpammo(index, CSW_SMOKEGRENADE, count)			
+		}
+
+		case HE:
+		{
+			give_item(index, "weapon_hegrenade")
+			cs_set_user_bpammo(index, CSW_HEGRENADE, count)				
+		}
+	}
+}
+
+stock give_weapons(index, weapon_type, count, count2)
+{
+	if(is_user_alive( index ))
+	{	
+		switch( weapon_type )
+		{
+			case i_deagle:
+			{
+				new iwpn = give_item(index, "weapon_deagle")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_DEAGLE, count2)	
+			}
+	
+			case i_awp:
+			{
+				new iwpn = give_item(index, "weapon_awp")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_AWP, count2)
+			}
+	
+			case i_usp:
+			{
+				new iwpn = give_item(index, "weapon_usp")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_USP, count2)
+			}
+
+			case i_p228:
+			{
+				new iwpn = give_item(index, "weapon_p228")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_P228, count2)	
+			}
+
+			case i_scout:
+			{
+				new iwpn = give_item(index, "weapon_scout")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_SCOUT, count2)	
+			}
+
+			case i_xm1014:
+			{
+				new iwpn = give_item(index, "weapon_xm1014")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_XM1014, count2)	
+			}
+
+			case i_mac10:
+			{
+				new iwpn = give_item(index, "weapon_mac10")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_MAC10, count2)	
+			}
+
+			case i_aug:
+			{
+				new iwpn = give_item(index, "weapon_aug")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_AUG, count2)	
+			}
+
+			case i_elite:
+			{
+				new iwpn = give_item(index, "weapon_elite")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_ELITE, count2)	
+			}
+
+			case i_fiveseven:
+			{
+				new iwpn = give_item(index, "weapon_fiveseven")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_FIVESEVEN, count2)	
+			}
+
+			case i_ump45:
+			{
+				new iwpn = give_item(index, "weapon_ump45")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_UMP45, count2)	
+			}
+
+			case i_sg550:
+			{
+				new iwpn = give_item(index, "weapon_sg550")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_SG550, count2)	
+			}
+
+			case i_galil:
+			{
+				new iwpn = give_item(index, "weapon_galil")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_GALIL, count2)	
+			}
+
+			case i_famas:
+			{
+				new iwpn = give_item(index, "weapon_famas")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_FAMAS, count2)	
+			}
+
+			case i_glock18:
+			{
+				new iwpn = give_item(index, "weapon_glock18")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_GLOCK18, count2)	
+			}
+
+			case i_mp5navy:
+			{
+				new iwpn = give_item(index, "weapon_mp5navy")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_MP5NAVY, count2)	
+			}
+
+			case i_m249:
+			{
+				new iwpn = give_item(index, "weapon_m249")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_M249, count2)	
+			}
+
+			case i_m3:
+			{
+				new iwpn = give_item(index, "weapon_m3")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_M3, count2)	
+			}
+
+			case i_m4a1:
+			{
+				new iwpn = give_item(index, "weapon_m4a1")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_M4A1, count2)	
+			}
+
+			case i_tmp:
+			{
+				new iwpn = give_item(index, "weapon_tmp")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_TMP, count2)	
+			}
+
+			case i_g3sg1:
+			{
+				new iwpn = give_item(index, "weapon_g3sg1")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_G3SG1, count2)	
+			}
+
+			case i_sg552:
+			{
+				new iwpn = give_item(index, "weapon_sg552")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_SG552, count2)	
+			}
+
+
+			case i_ak47:
+			{
+				new iwpn = give_item(index, "weapon_ak47")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_AK47, count2)	
+			}
+
+			case i_p90:
+			{
+				new iwpn = give_item(index, "weapon_p90")
+				cs_set_weapon_ammo(iwpn, count)
+				cs_set_user_bpammo(index, CSW_P90, count2)	
+			}
+
+
+		}
+	}	
+
+}
+
+stock player_name(index)
+{
+	new szName[33]
+	
+	get_user_name(index, szName, cm(szName))
+
+	return szName;
+	
+}
+
+stock player_ip(index)
+{
+	new szIP[40];
+
+	get_user_ip ( id, szIP, cm(szIP) , 1 );
+
+	return szIp;
+}
+
+ln_color(id, Color:type, const msg[], {Float,Sql,Result,_}:...)
+{
+	new message[256];
+ 
+	switch(type)
+	{
+		case NORMAL: // clients scr_concolor cvar color
+		{
+			message[0] = 0x01;
+		}
+		case GREEN: // Green
+		{
+			message[0] = 0x04;
+		}
+		default: // White, Red, Blue
+		{
+			message[0] = 0x03;
+		}
+	}
+	 
+	vformat(message[1], 251, msg, 4);
+ 
+	// Make sure message is not longer than 192 character. Will crash the server.
+	message[191] = '^0';
+ 
+	new team, ColorChange, index, MSG_Type;
+	if(id)
+	{
+		MSG_Type = MSG_ONE;
+		index = id;
+	} else {
+		index = FindPlayer();
+		MSG_Type = MSG_ALL;
+	}
+
+	team = get_user_team(index);
+	ColorChange = ColorSelection(index, MSG_Type, type);
+ 
+
+	ShowColorMessage(index, MSG_Type, message);
+	if(ColorChange)
+	{
+		Team_Info(index, MSG_Type, TeamName[team]);
+	}
+}
+ 
+ShowColorMessage(id, type, message[])
+{
+	static get_user_msgid_saytext;
+	if(!get_user_msgid_saytext)
+	{
+		get_user_msgid_saytext = get_user_msgid("SayText");
+	}
+	message_begin(type, get_user_msgid_saytext, _, id);
+	write_byte(id)	
+	write_string(message);
+	message_end();	
+}
+ 
+Team_Info(id, type, team[])
+{
+	static bool:teaminfo_used;
+	static get_user_msgid_teaminfo;
+	if(!teaminfo_used)
+	{
+		get_user_msgid_teaminfo = get_user_msgid("TeamInfo");
+		teaminfo_used = true;
+	}
+	message_begin(type, get_user_msgid_teaminfo, _, id);
+	write_byte(id);
+	write_string(team);
+	message_end();
+ 
+	return 1;
+}
+ 
+ColorSelection(index, type, Color:Type)
+{
+	switch(Type)
+	{
+		case RED:
+		{
+			return Team_Info(index, type, TeamName[1]);
+		}
+		case BLUE:
+		{
+			return Team_Info(index, type, TeamName[2]);
+		}
+		case GREY:
+		{
+			return Team_Info(index, type, TeamName[0]);
+		}
+	}
+ 
+	return 0;
+}
+ 
+FindPlayer()
+{
+	new i = -1;
+	static iMaxPlayers;
+	if( !iMaxPlayers )
+	{
+		iMaxPlayers = get_maxplayers( );
+	}
+	while(i <= iMaxPlayers)
+	{
+		if(is_user_connected(++i))
+			return i;
+	}
+ 
+	return -1;
+}
